@@ -1,4 +1,13 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
+    background: paleturquoise;
 }
 
+.question {
+    background: palegoldenrod;
+}
+
+.answer {
+    background: pink;
+    color: transparent; 
+}
