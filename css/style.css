@@ -3,7 +3,7 @@
     background: paleturquoise;
 }
 
-#bio, #education, #workexp, #guessing-game {
+#bio, #education, #workexp, #guessing-game, #top-ten {
     border: 2px solid darkblue;
     margin: 10px 10px;
     padding: 20px;
