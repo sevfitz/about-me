@@ -9,11 +9,11 @@
     padding: 20px;
 }
 
-.question {
+#QABlock li {
     background: palegoldenrod;
 }
 
-.answer {
+#QABlock p {
     background: pink;
     color: transparent; 
     font-size: 16px;
