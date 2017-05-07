@@ -1,17 +1,17 @@
 'use strict';
 
-// TODO: have one overall function to play the game using a button - no fxns inside the questions though
-
 var rightAnswerMsg = 'The user entered a correct answer.';
 var wrongAnswerMsg = 'The user entered an incorrect answer.';
+var tally = 0;		// Start the right/wrong answer question tally at zero
 
+// Question and answer arrays
 var questionArray = ['1. Is Stephanie\'s hair brown?',
 					'2. Is Stephanie 5\'10\" tall?',
 					'3. Has Stephanie ever lived in France?',
 					'4. Did Stephanie study Physics?',
 					'5. Is Stephanie allergic to wheat?',
-					'6. Can you guess the number I am thinking of between 0 and 10?',
-					'7. Can you guess a city I have lived in besides Beaverton?'];
+					'6. Can you guess the number Stephanie is thinking of between 0 and 10?',
+					'7. Can you guess a city Stephanie has lived in besides Beaverton? You have six tries.'];
 
 var answeredYesArray = ['Yep. My hair is brown.',
 					'No. I\'m not nearly that tall.',
@@ -32,12 +32,8 @@ var cityArray = ['EUGENE',
 				'BRIGHTON',
 				'SAINT GENIS'];
 
-var userName = prompt( 'What is your name?' );
-var tally = 0;
-
 // Questions 1-5
-
-function qOneToFive() {
+function askYorNQs() {
 
 	for ( var i = 0; i < questionArray.length - 2; i ++) {
 		do {
@@ -73,17 +69,17 @@ function qOneToFive() {
 				alert( 'Please enter a yes or no answer.' );
 			}
 
-		} while ( answer !== '' );
+		} while ( answer === '' );
 	}
 }
 
 // Question 6
-
-function qSix() {
+function askNumGuessQ() {
 	var compGuess = Math.floor(Math.random() * 10 + 1);
 	var guessNum = 4;
 
 	while ( guessNum > 0 ) {
+
 		var numAnswer = parseInt( prompt( questionArray[5] ) );
 		if ( isNaN( numAnswer ) ) {
 			alert( 'Please enter a number!' );
@@ -100,45 +96,59 @@ function qSix() {
 		} else if ( numAnswer > compGuess ) {
 			guessNum--;
 			alert( 'Too high! You have ' + ( guessNum ) + ' guesses left.' );
-	//	} else {
-		//	alert( 'You got it! It took you ' ( guessNum ) + ' guesses to get the right number!' );
-			
 		}
 	}
+
+	// Give the user a response to Q6 on the html page
 	var answerSix = document.getElementById( 'answer6' );
 	answerSix.textContent = 'The number was ' + compGuess + '!';
 	answerSix.style.color = 'black';
-
 }
 
 // Question 7
-function qSeven() {
-
+function askCityQ() {
 	for ( var guessCount = 6; guessCount > 0; guessCount -- ) {
+
 		var cityAnswer = prompt( questionArray[6] ).toUpperCase();
 		var rightAnswer = false;
+
 		for ( var a = 0; a < cityArray.length; a ++ ) {
 			if ( cityAnswer === cityArray[a] ) {
 				rightAnswer = true;
 			} 
 		}
+
 		if ( rightAnswer === true ) {
 			alert( 'You\'re right!' );
 			tally++;
 			guessCount = 0;
 			break;
-		} else {
-			alert( 'No.' );
+
+		} else if ( guessCount > 1 ) {
+			alert( 'No. Try again!' );
+		}
+
+		if ( guessCount === 1 ) {
+			alert( 'You used up your guesses.' );
 		}
 	}
-	var answerSeven = document.getElementById( 'answer7' );
-	answerSeven.textContent = 'Here are all the correct answers: ' + cityArray;
-	answerSeven.style.color = 'black';
 
+	// Give the user a response to Q7 on the html page
+	var answerSeven = document.getElementById( 'answer7' );
+	answerSeven.textContent = 'Here are all the correct answers: ' + cityArray.join(', ');
+	answerSeven.style.color = 'black';
 }
 
-qOneToFive();
-qSix();
-qSeven();
+// Put all the questions into one function to call when the startgame button is clicked
+function startGame () {
+	var userName = prompt( 'What is your name?' );
 
-alert( userName + ', you got ' + tally + ' out of 7 questions right. Try again sometime!' );
+	askYorNQs();
+	askNumGuessQ();
+	askCityQ();
+
+	alert( userName + ', you got ' + tally + ' out of ' + questionArray.length + ' questions right.' );
+}
+
+// Call the question scripts when the startgame button is clicked.
+document.getElementById( 'startgame' ).onclick = startGame;
