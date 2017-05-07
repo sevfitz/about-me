@@ -1,13 +1,92 @@
-* {
+
+#container {
+    width: 100%;
+    height: 100%;
     font-family: Arial, Helvetica, sans-serif;
     background: paleturquoise;
+    box-sizing: border-box;
+    border: 15px solid #084211;
 }
 
-.question {
+#first-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+header {
+    height: 15%;
+    background-color: #084211;
+    color: ghostwhite;
+    padding: 5vh;
+    margin: 0 0 2vh 0;
+}
+
+#bio, #education, #workexp, #top-ten {
+    border: 3px solid darkblue;
+    margin: 10px 10px;
+    padding: 20px;
+    width: 70vh;
+}
+
+#bio {
+    background-color: #edf788;
+}
+
+#education {
+    background-color: #e09186;
+}
+
+#workexp {
+    background-color: #88c12c;
+}
+
+#top-ten {
+    position: relative;
+    overflow: hidden;
+}
+
+#top-ten img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+#top-ten h3, li {
+    position: relative;
+    z-index: 2;
+}
+
+#guessing-game {
+    border: 3px solid #4e0859;
+    margin: 9vh;
+    padding: 20px;
+    align-content: center; 
+}
+
+#startgame {
+    box-shadow: #7b4384 0px 1px 0px 0px;
+    background: linear-gradient(#4e0859 5%, #7b4384 100%); 
+    border-radius: 6px; 
+    border: 1px solid #4e0859;
+    cursor: pointer; 
+    color: #f9f1ef;
+    font-size: 15px;
+    font-weight: bold; 
+    padding: 6px 24px; 
+    text-decoration: none; 
+}
+
+#QABlock li {
     background: palegoldenrod;
 }
 
-.answer {
+#QABlock p {
     background: pink;
     color: transparent; 
     font-size: 16px;

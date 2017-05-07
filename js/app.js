@@ -1,123 +1,154 @@
 'use strict';
 
-// Question One
-function questionOne() {
-	var a1Upper = prompt( '1. Is Stephanie\'s hair brown?' ).toUpperCase();
-	var a1 = document.getElementById( 'answer1' );
-	console.log( 'The response to Question 1 was ' + a1Upper );
+var rightAnswerMsg = 'The user entered a correct answer.';
+var wrongAnswerMsg = 'The user entered an incorrect answer.';
+var tally = 0;		// Start the right/wrong answer question tally at zero
 
-	if ( a1Upper === 'YES' || a1Upper === 'Y' ) {
-		a1.textContent = 'Yep. My hair is brown.';
-		a1.style.color = 'black';
-		a1.style.fontSize = '20px';
-		console.log( 'The user entered a correct answer.' );
+// Question and answer arrays
+var questionArray = ['1. Is Stephanie\'s hair brown?',
+					'2. Is Stephanie 5\'10\" tall?',
+					'3. Has Stephanie ever lived in France?',
+					'4. Did Stephanie study Physics?',
+					'5. Is Stephanie allergic to wheat?',
+					'6. Can you guess the number Stephanie is thinking of between 0 and 10?',
+					'7. Can you guess a city Stephanie has lived in besides Beaverton? You have six tries.'];
 
-	} else if ( a1Upper === 'NO' || a1Upper === 'N' ) {
-		a1.textContent = 'No. My hair is brown.';
-		a1.style.color = 'black';
-		console.log( 'The user entered an incorrect answer.' );
+var answeredYesArray = ['Yep. My hair is brown.',
+					'No. I\'m not nearly that tall.',
+					'You are right--I did for a while.',
+					'You\'re right; I did study Physics for my Bachelor\'s.',
+					'Nope, luckily!'];
+					
+var answeredNoArray = ['No. My hair is brown.',
+					'You are correct. I am much shorter than that.',
+					'Nope. I really did live there.',
+					'No. I did study Physics.',
+					'You\'re right. I\'m not allergic to wheat.'];
 
-	} else {
-		alert( 'Please enter a yes or no answer.' );
-		questionOne();
+var cityArray = ['EUGENE',
+				'PORTLAND',
+				'SALT LAKE CITY',
+				'CAMBRIDGE',
+				'BRIGHTON',
+				'SAINT GENIS'];
+
+// Questions 1-5
+function askYorNQs() {
+
+	for ( var i = 0; i < questionArray.length - 2; i ++) {
+		do {
+			var answer = prompt( questionArray[i] ).toUpperCase();
+			var answerToWrite = document.getElementById( 'answer' + (i + 1) );
+			console.log( 'The response to Question ' + (i + 1) + ' was ' + answer );
+
+			if ( answer === 'YES' || answer === 'Y' ) {
+				answerToWrite.textContent = answeredYesArray[i];
+				answerToWrite.style.color = 'black';
+				if ( i === 0 || i === 2 || i === 3 ) {
+					answerToWrite.style.fontSize = '20px';
+					tally++;
+					console.log( rightAnswerMsg );
+				} else {
+					console.log( wrongAnswerMsg );
+				}
+				break;
+
+			} else if ( answer === 'NO' || answer === 'N' ) {
+				answerToWrite.textContent = answeredNoArray[i];
+				answerToWrite.style.color = 'black';
+				if ( i === 1 || i === 4 ) {
+					answerToWrite.style.fontSize = '20px';
+					tally++;
+					console.log( rightAnswerMsg );
+				} else {
+					console.log( wrongAnswerMsg );
+				}
+				break;
+
+			} else {
+				alert( 'Please enter a yes or no answer.' );
+			}
+
+		} while ( answer === '' );
 	}
 }
 
-// Question Two
-function questionTwo() {
-	var a2Upper = prompt( '2. Is Stephanie 5\'10\" tall?' ).toUpperCase();
-	var a2 = document.getElementById( 'answer2' );
-	console.log( 'The response to Question 2 was ' + a2Upper );
+// Question 6
+function askNumGuessQ() {
+	var compGuess = Math.floor(Math.random() * 10 + 1);
+	var guessNum = 4;
 
-	if ( a2Upper === 'YES' || a2Upper === 'Y' ) {
-		a2.textContent = 'No. I\'m not nearly that tall.';
-		a2.style.color = 'black';
-		console.log( 'The user entered an incorrect answer.' );
+	while ( guessNum > 0 ) {
 
-	} else if ( a2Upper === 'NO' || a2Upper === 'N' ) {
-		a2.textContent = 'You are correct. I am much shorter than that.';
-		a2.style.color = 'black';
-		a2.style.fontSize = '20px';
-		console.log( 'The user entered a correct answer.' );
+		var numAnswer = parseInt( prompt( questionArray[5] ) );
+		if ( isNaN( numAnswer ) ) {
+			alert( 'Please enter a number!' );
 
-	} else {
-		alert( 'Please enter a yes or no answer.' );
-		questionTwo();
+		} else if ( numAnswer === compGuess ) {
+			alert( 'You got it! It took you '+ ( 5 - guessNum ) + ' guesses to get the right number!' );
+			tally++;
+			break;
+
+		} else if ( numAnswer < compGuess ) {
+			guessNum--;
+			alert( 'Too low! You have ' + ( guessNum ) + ' guesses left.' );
+
+		} else if ( numAnswer > compGuess ) {
+			guessNum--;
+			alert( 'Too high! You have ' + ( guessNum ) + ' guesses left.' );
+		}
 	}
+
+	// Give the user a response to Q6 on the html page
+	var answerSix = document.getElementById( 'answer6' );
+	answerSix.textContent = 'The number was ' + compGuess + '!';
+	answerSix.style.color = 'black';
 }
 
-// Question Three
-function questionThree() {
-	var a3Upper = prompt( '3. Has Stephanie ever lived in France?' ).toUpperCase();
-	var a3 = document.getElementById( 'answer3' );
-	console.log( 'The response to Question 3 was ' + a3Upper );
+// Question 7
+function askCityQ() {
+	for ( var guessCount = 6; guessCount > 0; guessCount -- ) {
 
-	if ( a3Upper === 'YES' || a3Upper === 'Y' ) {
-		a3.textContent = 'You are right--I did for a while.';
-		a3.style.color = 'black';
-		a3.style.fontSize = '20px';
-		console.log( 'The user entered a correct answer.' );
+		var cityAnswer = prompt( questionArray[6] ).toUpperCase();
+		var rightAnswer = false;
 
-	} else if ( a3Upper === 'NO' || a3Upper === 'N' ) {
-		a3.textContent = 'Nope. I really did live there.';
-		a3.style.color = 'black';
-		console.log( 'The user entered an incorrect answer.' );
+		for ( var a = 0; a < cityArray.length; a ++ ) {
+			if ( cityAnswer === cityArray[a] ) {
+				rightAnswer = true;
+			} 
+		}
 
-	} else {
-		alert( 'Please enter a yes or no answer.' );
-		questionThree();
+		if ( rightAnswer === true ) {
+			alert( 'You\'re right!' );
+			tally++;
+			guessCount = 0;
+			break;
+
+		} else if ( guessCount > 1 ) {
+			alert( 'No. Try again!' );
+		}
+
+		if ( guessCount === 1 ) {
+			alert( 'You used up your guesses.' );
+		}
 	}
+
+	// Give the user a response to Q7 on the html page
+	var answerSeven = document.getElementById( 'answer7' );
+	answerSeven.textContent = 'Here are all the correct answers: ' + cityArray.join(', ');
+	answerSeven.style.color = 'black';
 }
 
-// Question Four
-function questionFour() {
-	var a4Upper = prompt( '4. Did Stephanie study Physics?' ).toUpperCase();
-	var a4 = document.getElementById( 'answer4' );
-	console.log( 'The response to Question 4 was ' + a4Upper );
+// Put all the questions into one function to call when the startgame button is clicked
+function startGame () {
+	var userName = prompt( 'What is your name?' );
 
-	if ( a4Upper === 'YES' || a4Upper === 'Y' ) {
-		a4.textContent = 'You\'re right; I did study Physics for my Bachelor\'s.';
-		a4.style.color = 'black';
-		a4.style.fontSize = '20px';
-		console.log( 'The user entered a correct answer.' );
+	askYorNQs();
+	askNumGuessQ();
+	askCityQ();
 
-	} else if ( a4Upper === 'NO' || a4Upper === 'N' ) {
-		a4.textContent = 'No. I did study Physics.';
-		a4.style.color = 'black';
-		console.log( 'The user entered an incorrect answer.' );
-
-	} else {
-		alert( 'Please enter a yes or no answer.' );
-		questionFour();
-	}
+	alert( userName + ', you got ' + tally + ' out of ' + questionArray.length + ' questions right.' );
 }
 
-// Question Five
-function questionFive() {
-	var a5Upper = prompt( '5. Is Stephanie allergic to wheat?' ).toUpperCase();
-	var a5 = document.getElementById( 'answer5' );
-	console.log( 'The response to Question 5 was ' + a5Upper );
-
-	if ( a5Upper === 'YES' || a5Upper === 'Y' ) {
-		a5.textContent = 'Nope, luckily!';
-		a5.style.color = 'black';
-		console.log( 'The user entered an incorrect answer.' );
-
-	} else if ( a5Upper === 'NO' || a5Upper === 'N' ) {
-		a5.textContent = 'You\'re right. I\'m not allergic to wheat.';
-		a5.style.color = 'black';
-		a5.style.fontSize = '20px';
-		console.log( 'The user entered a correct answer.' );
-
-	} else {
-		alert( 'Please enter a yes or no answer.' );
-		questionFive();
-	}
-}
-
-// Call the functions
-questionOne();
-questionTwo();
-questionThree();
-questionFour();
-questionFive();
+// Call the question scripts when the startgame button is clicked.
+document.getElementById( 'startgame' ).onclick = startGame;
